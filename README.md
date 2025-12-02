@@ -72,7 +72,7 @@ Contiene los archivos CSV con los datos fuente del mercado:
 
 #### Directorio `scripts/`
 
-Módulos de Python que implementan la lógica del proyecto:
+Módulos de Python que implementan la lógica de conexión a base de datos, preprocesamiento de datos y creación de bases de datos:
 
 - **__init__.py**: Inicializador del paquete
 - **data_proceessing.py**: Funciones para limpieza y procesamiento de datos
@@ -93,18 +93,14 @@ Recursos visuales del proyecto:
 - **ERD.jpeg**: Diagrama Entidad-Relación de la base de datos
 - **analysis_image.png**: Imágenes de apoyo para el análisis
 
-#### Directorio `venv/`
-
-Entorno virtual de Python (no se incluye en control de versiones)
-
----
 
 #### Flujo de Trabajo
 
 1. Los datos crudos se almacenan en `market_db/`
-2. Los scripts en `scripts/` procesan y cargan los datos
-3. `main.py` ejecuta el pipeline completo
-4. Los resultados se consolidan en `modelo_ventas.csv`
-5. Las consultas SQL en `sql/` permiten análisis adicionales
-6. Las visualizaciones se crean en `SuperDashBoard.pbix`
-7. El análisis final se documenta en `analysis.md`
+2. Se configuran las constantes de configuración para la conexión a base de datos en cada script.
+3. Los scripts en `scripts/` procesan y cargan los datos
+4. `main.py` ejecuta el pipeline completo
+5. Los resultados se consolidan en `modelo_ventas.csv`
+6. Las consultas SQL en `sql/` permiten análisis adicionales
+7. Las visualizaciones se crean en `SuperDashBoard.pbix`
+8. El análisis final se documenta en `analysis.md`
