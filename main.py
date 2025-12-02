@@ -8,6 +8,7 @@ from scripts.load_data import main, excute_migration
 
 DATA_DIR = Path(__file__).parent / "market_db"
 
+
 def run():
     print("Iniciando procesamiento de datos...")
     process_data()
@@ -46,5 +47,7 @@ def run():
     excute_migration(cursor)
     print("Migración de datos completada.")
 
+
 if __name__ == "__main__":
     run()
+

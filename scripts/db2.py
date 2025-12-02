@@ -3,15 +3,16 @@ from pathlib import Path
 
 # Configuración SQL Server
 SQL_SERVER_CONFIG = {
-    "server": "172.31.32.1",
+    "server": "localhost",
     "port": 1433,
-    "user": "test_conn",
-    "password": "@Pg621327481",
+    "user": "sa",
+    "password": "Admin.1123",
     "database": "BI_Ventas_DWH",
     "schema": "SQLBI",
 }
 
 DATA_DIR = Path(__file__).parent / "data"
+
 
 def create_dwh_db():
     conn = pymssql.connect(
@@ -55,8 +56,7 @@ def create_dwh_db():
         "Sales",
         "Calendar",
         "Channel",
-        "Geography"
-        "Stores",
+        "GeographyStores",
         "Product",
         "ProductSubcategory",
         "ProductCategory",
@@ -64,7 +64,7 @@ def create_dwh_db():
     ]
     for table in tables:
         cursor.execute(
-            f"IF OBJECT_ID('{SQL_SERVER_CONFIG["schema"]}.{table}', 'U') IS NOT NULL DROP TABLE {SQL_SERVER_CONFIG["schema"]}.{table}"
+            f"IF OBJECT_ID('{SQL_SERVER_CONFIG['schema']}.{table}', 'U') IS NOT NULL DROP TABLE {SQL_SERVER_CONFIG['schema']}.{table}"
         )
 
     # Calendar
@@ -228,24 +228,31 @@ def create_dwh_db():
     """
     )
 
-
     indexes = [
-        ("IX_Sales_DateKey", f"{SQL_SERVER_CONFIG["schema"]}.Sales", "DateKey"),
-        ("IX_Sales_Channel", f"{SQL_SERVER_CONFIG["schema"]}.Sales", "channel"),
-        ("IX_Sales_StoreKey", f"{SQL_SERVER_CONFIG["schema"]}.Sales", "StoreKey"),
-        ("IX_Sales_ProductID", f"{SQL_SERVER_CONFIG["schema"]}.Sales", "Product_ID"),
-        ("IX_Sales_PromotionKey", f"{SQL_SERVER_CONFIG["schema"]}.Sales", "PromotionKey"),
+        ("IX_Sales_DateKey", f"{SQL_SERVER_CONFIG['schema']}.Sales", "DateKey"),
+        ("IX_Sales_Channel", f"{SQL_SERVER_CONFIG['schema']}.Sales", "channel"),
+        ("IX_Sales_StoreKey", f"{SQL_SERVER_CONFIG['schema']}.Sales", "StoreKey"),
+        ("IX_Sales_ProductID", f"{SQL_SERVER_CONFIG['schema']}.Sales", "Product_ID"),
+        (
+            "IX_Sales_PromotionKey",
+            f"{SQL_SERVER_CONFIG['schema']}.Sales",
+            "PromotionKey",
+        ),
         (
             "IX_Product_SubcategoryKey",
-            f"{SQL_SERVER_CONFIG["schema"]}.Product",
+            f"{SQL_SERVER_CONFIG['schema']}.Product",
             "ProductSubcategoryKey",
         ),
         (
             "IX_ProductSubcategory_CategoryKey",
-            f"{SQL_SERVER_CONFIG["schema"]}.ProductSubcategory",
+            f"{SQL_SERVER_CONFIG['schema']}.ProductSubcategory",
             "ProductCategoryKey",
         ),
-        ("IX_Stores_GeographyKey", f"{SQL_SERVER_CONFIG["schema"]}.Stores", "GeographyKey"),
+        (
+            "IX_Stores_GeographyKey",
+            f"{SQL_SERVER_CONFIG['schema']}.Stores",
+            "GeographyKey",
+        ),
     ]
 
     for index_name, table_name, column_name in indexes:
@@ -256,7 +263,6 @@ def create_dwh_db():
         """
         )
         print(f"   ✓ Índice {index_name} creado")
-
 
     # Listar tablas
     cursor.execute(
