@@ -5,6 +5,7 @@ from scripts.data_proceessing import process_data
 from scripts.db import create_stagging_db, SQL_SERVER_CONFIG as sqc
 from scripts.db2 import create_dwh_db, SQL_SERVER_CONFIG as sqc2
 from scripts.load_data import main, excute_migration
+import scripts.mongodb as mongo
 
 DATA_DIR = Path(__file__).parent / "market_db"
 
@@ -47,7 +48,10 @@ def run():
     excute_migration(cursor)
     print("Migración de datos completada.")
 
+    print("\n------------------------------------------\n")
+    print("Iniciando analisis descriptivo en MongoDB")
+    mongo.main()
+
 
 if __name__ == "__main__":
     run()
-

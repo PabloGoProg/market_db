@@ -6,10 +6,10 @@ import sys
 
 # Configuración SQL Server
 SQL_SERVER_CONFIG = {
-    "server": "172.31.32.1",
+    "server": "localhost",
     "port": 1433,
-    "user": "test_conn",
-    "password": "@Pg621327481",
+    "user": "sa",
+    "password": "Admin.1123",
     "database": "BI_Ventas_Stagging",
     "schema": "SQLBI",
 }
@@ -207,7 +207,8 @@ def create_processes(cursor):
             END
         END
     """)
-    
+
+
 def create_migration_process(cursor):
     cursor.execute(
         """
@@ -490,6 +491,7 @@ def create_migration_process(cursor):
         """
     )
 
+
 def parse_decimal(value):
     """Convierte valores decimales con coma a punto"""
     if not value or value.strip() == "":
@@ -646,7 +648,6 @@ def load_sales(cursor, csv_path):
     with open(csv_path, "r", encoding="utf-8-sig") as f:
         reader = csv.DictReader(f, delimiter=";")
         for row in reader:
-
             cursor.callproc(
                 f"{SQL_SERVER_CONFIG['schema']}.sp_InsertSales",
                 (
@@ -667,7 +668,8 @@ def load_sales(cursor, csv_path):
                     parse_decimal(row["UnitPrice"]),
                 ),
             )
-    
+
+
 def excute_migration(cursor):
     """Ejecuta el proceso de migración de datos"""
     cursor.execute(f"EXEC {SQL_SERVER_CONFIG['schema']}.MigrateDB")
